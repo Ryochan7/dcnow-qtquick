@@ -8,6 +8,8 @@ Item {
         //console.log(objString);
 
         cacheObject.currentlyOnline = 0;
+        usersModel.clear();
+
         var temp = JSON.parse(objString);
         var usersList = temp["users"];
         var tempmap = {};
