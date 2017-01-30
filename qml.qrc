@@ -4,5 +4,9 @@
         <file>UsersPage.qml</file>
         <file>GamesPage.qml</file>
         <file>SettingsPage.qml</file>
+        <file>ListHeader.qml</file>
+        <file>icon-refresh.png</file>
+        <file>icon-loading.png</file>
+        <file>ListLoading.qml</file>
     </qresource>
 </RCC>

@@ -94,6 +94,18 @@ Item {
         id: gamesListView
         anchors.fill: parent
         anchors.margins: 20
+        boundsBehavior: Flickable.DragOverBounds
+
+        ListHeader {
+            id: listHeader
+            y: -gamesListView.contentY - height - 10
+            currentList: parent
+        }
+
+        ListLoading {
+            id: loadingIcon
+            y: -height - 14
+        }
 
         model: ListModel {
             id: noseNuggets
@@ -140,6 +152,14 @@ Item {
                 }
             }
         }
+
+        onDragEnded: {
+            if (contentY < -120)
+            {
+                util.queueRefresh();
+                loadingIcon.state = "shown";
+            }
+        }
     }
 
     Component.onCompleted: {
@@ -153,6 +173,7 @@ Item {
         target: util
         onDataReady: {
             parseGames(util.getJsonData());
+            loadingIcon.state = "";
         }
     }
 }

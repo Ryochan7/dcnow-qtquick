@@ -103,8 +103,20 @@ Item {
         anchors.bottom: parent.bottom
         anchors.topMargin: 4
         clip: true
+        boundsBehavior: Flickable.DragOverBounds
 
         spacing: 10
+
+        ListHeader {
+            id: listHeader
+            y: -usersListView.contentY - height
+            currentList: parent
+        }
+
+        ListLoading {
+            id: loadingIcon
+            y: -height
+        }
 
         model: ListModel {
             id: usersModel
@@ -165,6 +177,14 @@ Item {
                 }
             }
         }
+
+        onDragEnded: {
+            if (contentY < -120)
+            {
+                util.queueRefresh();
+                loadingIcon.state = "shown";
+            }
+        }
     }
 
     Component.onCompleted: {
@@ -178,6 +198,7 @@ Item {
         target: util
         onDataReady: {
             parseUsers(util.getJsonData());
+            loadingIcon.state = "";
         }
     }
 }

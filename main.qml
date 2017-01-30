@@ -52,11 +52,6 @@ ApplicationWindow {
                     title: "Settings"
                     source: "SettingsPage.qml"
                 }
-
-                ListElement {
-                    title: "Refresh"
-                    source: ""
-                }
             }
 
             delegate: ItemDelegate {
@@ -70,13 +65,7 @@ ApplicationWindow {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (title === "Refresh")
-                        {
-                            //linksListView.currentIndex = -1;
-                            mainContainer.replace(busyLoadingComp, StackView.Immediate);
-                            util.queueRefresh();
-                        }
-                        else if (ListView.currentIndex !== index)
+                        if (ListView.currentIndex !== index)
                         {
                             linksListView.currentIndex = index
                             var tempproperties = {}
@@ -157,12 +146,6 @@ ApplicationWindow {
                     linksListView.currentIndex = 1;
                 }
             }
-            else
-            {
-                mainContainer.replace(Qt.resolvedUrl(linksListView.model.get(linksListView.currentIndex).source),
-                                      StackView.Immediate);
-            }
-
         }
 
         onError: {
