@@ -32,7 +32,8 @@ Item {
             var user = usersList[i];
             var username = user["username"];
             var currentGame = user["current_game"];
-            if (currentGame in cacheObject.gameMap)
+            if (currentGame in cacheObject.gameMap &&
+                user["online"])
             {
                 var game = cacheObject.gameMap[currentGame];
                 var players = game["players"];
@@ -48,9 +49,12 @@ Item {
 
                 if (!found)
                 {
-                    game["numOnline"] = game["numOnline"]++;
+                    game["numOnline"] = ++game["numOnline"];
                     players.push(username);
                 }
+
+                game["players"] = players;
+                cacheObject.gameMap[currentGame] = game;
             }
         }
 
@@ -59,7 +63,8 @@ Item {
         {
             //console.log(cacheObject.gameMap[curgame]["numOnline"]);
             noseNuggets.append({"name": String(curgame),
-                                "numberOnline": cacheObject.gameMap[curgame]["numOnline"]});
+                                "numberOnline": cacheObject.gameMap[curgame]["numOnline"],
+                                "players": cacheObject.gameMap[curgame]["players"].join(", ")});
         }
 
         resetGameMap();
@@ -135,7 +140,8 @@ Item {
                         }
                         else
                         {
-                            result = "Number playing online: " + numberOnline;
+                            //result = "Number playing online: " + numberOnline;
+                            result = "Currently playing: " + players;
                         }
 
                         return result;
