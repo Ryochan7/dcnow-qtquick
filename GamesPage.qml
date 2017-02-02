@@ -131,6 +131,7 @@ Item {
 
                 Text {
                     id: onlineStatus
+                    Layout.preferredWidth: parent.width
                     text: {
                         var result = "";
 
@@ -146,6 +147,8 @@ Item {
 
                         return result;
                     }
+
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Rectangle {
