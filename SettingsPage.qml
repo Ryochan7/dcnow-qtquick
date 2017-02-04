@@ -22,7 +22,7 @@ Item {
             anchors.top: parent.top
             anchors.topMargin: 20
 
-            spacing: 50
+            spacing: 20
 
             Label {
                 text: "Launch app showing games"
@@ -31,15 +31,19 @@ Item {
                 //Layout.fillWidth: true
             }
 
-            Item {
+            /*Item {
                 Layout.preferredHeight: 1
                 Layout.fillWidth: true
             }
+            */
 
             Switch {
                 id: gamesPageSwitch
                 checked: settings.inGames
-                Layout.fillWidth: true
+                Layout.preferredWidth: 50
+                //Layout.fillWidth: true
+                //Layout.rightMargin: 20
+                Layout.alignment: Qt.AlignRight
 
                 onCheckedChanged: {
                     settings.inGames = checked;
