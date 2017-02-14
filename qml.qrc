@@ -8,5 +8,6 @@
         <file>icon-refresh.png</file>
         <file>icon-loading.png</file>
         <file>ListLoading.qml</file>
+        <file>GameSchedule.qml</file>
     </qresource>
 </RCC>
