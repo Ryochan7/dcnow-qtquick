@@ -22,7 +22,7 @@ Item {
             y: -height - 14
         }
 
-        property var gamesModel: util.createGamesModel();
+        property QtObject gamesModel: util.createGamesModel();
         model: gamesModel
 
         delegate: Item {
@@ -104,6 +104,111 @@ Item {
             {
                 util.queueRefresh();
             }
+        }
+    }
+
+    Popup {
+        id: sortModePopup
+
+        modal: true
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        width: contentItem.childrenRect.width
+        height: contentItem.childrenRect.height
+
+        function resetChoices()
+        {
+            defaultRadio.checked = true;
+        }
+
+        property int choice: 0;
+
+        contentItem: ColumnLayout {
+            ButtonGroup {
+                id: buttonGroupChoices
+                buttons: sortOptionsColumn.children
+            }
+
+            ColumnLayout {
+                id: sortOptionsColumn
+                anchors.left: parent.left
+                anchors.right: parent.right
+
+                RadioButton {
+                    id: defaultRadio
+                    text: "Default"
+                    checked: true
+                    onClicked: {
+                        if (checked)
+                        {
+                            sortModePopup.choice = 0;
+                        }
+                    }
+                }
+
+                RadioButton {
+                    text: "Alphabetical"
+                    checked: false
+                    onClicked: {
+                        if (checked)
+                        {
+                            sortModePopup.choice = 1;
+                        }
+                    }
+                }
+
+                RadioButton {
+                    text: "Number of Players"
+                    checked: false
+                    onClicked: {
+                        if (checked)
+                        {
+                            sortModePopup.choice = 2;
+                        }
+                    }
+                }
+            }
+
+            Item {
+                id: spacerItem
+                anchors.top: sortOptionsColumn.bottom
+                height: 20
+                width: parent.width
+            }
+
+            RowLayout {
+                id: sortConfirmRow
+                anchors.top: spacerItem.bottom
+
+                Button {
+                    text: "Close"
+                    onClicked: {
+                        sortModePopup.close();
+                    }
+                }
+
+                Button {
+                    text: "Ok"
+                    onClicked: {
+                        gamesListView.gamesModel.setSortMode(sortModePopup.choice);
+                        gamesListView.gamesModel.sortModel();
+                        sortModePopup.close();
+                    }
+                }
+            }
+        }
+    }
+
+
+    Button {
+        text: "Sort"
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.rightMargin: 30
+        anchors.bottomMargin: 30
+
+        onClicked: {
+            sortModePopup.open();
         }
     }
 
