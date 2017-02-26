@@ -36,7 +36,7 @@ Item {
 
             XmlRole {
                 name: "eventDateTime";
-                query: "dtstart/string()";
+                query: "xs:dateTime(dtstart)";
             }
         }
 
