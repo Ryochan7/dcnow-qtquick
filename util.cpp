@@ -72,7 +72,7 @@ void Util::replyFinished(QNetworkReply *reply)
 
 void Util::queueRefresh()
 {
-    QNetworkRequest request(QUrl("https://dl.dropboxusercontent.com/u/31073509/dcnow_users.json"));
+    QNetworkRequest request(QUrl("http://23.239.26.40/extramedia/dcnow_users.json"));
     manager->get(request);
     emit updateQueued();
 }

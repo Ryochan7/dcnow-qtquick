@@ -25,7 +25,7 @@ Item {
         boundsBehavior: Flickable.DragOverBounds
         model: XmlListModel {
             id: xmlModel
-            source: "https://dl.dropboxusercontent.com/u/31073509/hamfest.txt"
+            source: "http://23.239.26.40/extramedia/hamfest.txt"
             //source: Qt.resolvedUrl("file:/home/ryochan7/hamfest.txt");
             query: "/events/event"
 
