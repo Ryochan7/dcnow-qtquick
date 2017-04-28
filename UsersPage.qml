@@ -1,9 +1,13 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+import QtQuick.Window 2.0
 
-Item {
+import "dcartcollection.js" as DCartcollection
+
+Rectangle {
     id: usersListPage
+    color: mainWindow.appTheme.backgroundColor
 
     Rectangle {
         id: headerRect
@@ -12,11 +16,26 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.leftMargin: 10
-        anchors.topMargin: 20
-        height: 20
+        anchors.rightMargin: 10
+        anchors.topMargin: 10
+        height: 24
+        color: mainWindow.appTheme.backgroundColor
 
         Text {
-            text: "Current Users Online: " + (util.usersModel ? util.usersModel.numberOnline : 0);
+            id: playersOnlineText
+            anchors.top: headerRect.top
+            anchors.left: headerRect.left
+            text: "Players Online: " + (util.usersModel ? util.usersModel.numberOnline : 0);
+            font.pointSize: 12 * mainWindow.fontSizeMulti
+            color: mainWindow.appTheme.textColor
+        }
+
+        Text {
+            anchors.top: headerRect.top
+            anchors.right: headerRect.right
+            text: (util.usersModel ? util.usersModel.numberPlayers : 0) + " Players"
+            font.pointSize: 12 * mainWindow.fontSizeMulti
+            color: mainWindow.appTheme.textColor
         }
     }
 
@@ -27,7 +46,7 @@ Item {
         anchors.right: parent.right
         anchors.top: headerRect.bottom
         anchors.bottom: parent.bottom
-        anchors.topMargin: 4
+        anchors.topMargin: 10
         clip: true
         boundsBehavior: Flickable.DragOverBounds
 
@@ -50,39 +69,135 @@ Item {
         delegate: Rectangle {
             width: parent.width
             height: childrenRect.height + 8
-            color: "#d3d3d3"
+            color: mainWindow.appTheme.backgroundColor
 
             ColumnLayout {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.leftMargin: 10
-                y: 4
+                anchors.rightMargin: 10
 
-                Text {
-                    text: name
-                }
-
-                Text {
-                    text: {
-                        var result = "";
-                        if (online)
+                Image {
+                    id: backImage
+                    fillMode: Image.PreserveAspectCrop
+                    source: {
+                        var result = DCartcollection.backgrounds["UNKNOWN"];
+                        if (current_game && current_game in DCartcollection.backgrounds)
                         {
-                            if (current_game)
-                            {
-                                result = "Currently Playing: " + current_game;
-                            }
-                            else
-                            {
-                                result = "Online";
-                            }
-
-                        }
-                        else if (current_game)
-                        {
-                            result = "Last Played: " + current_game;
+                            result = DCartcollection.backgrounds[current_game];
                         }
 
                         return result;
+                    }
+
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: {
+                        var result = 240;
+                        if (Screen.primaryOrientation !== Qt.PortraitOrientation)
+                        {
+                            result = 180;
+                        }
+
+                        return result;
+                    }
+
+
+                    ColumnLayout {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.topMargin: 10
+                        anchors.leftMargin: 10
+                        anchors.rightMargin: 10
+
+                        Text {
+                            text: name
+                            font.pointSize: 16 * mainWindow.fontSizeMulti
+                            color: mainWindow.appTheme.textColor
+                            style: Text.Raised
+                            styleColor: mainWindow.appTheme.styleColor
+                        }
+
+                        Text {
+                            text: {
+                                var result = "";
+                                if (online)
+                                {
+                                    if (current_game)
+                                    {
+                                        result = current_game;
+                                    }
+                                    else
+                                    {
+                                        result = "Online";
+                                    }
+                                }
+                                else
+                                {
+                                    result = "Offline";
+                                }
+
+                                return result;
+                            }
+
+                            font.pointSize: 14 * mainWindow.fontSizeMulti
+                            style: Text.Raised
+                            styleColor: mainWindow.appTheme.styleColor
+                            color: mainWindow.appTheme.textColor
+                        }
+
+                        Item {
+                            Layout.preferredWidth: 1
+                            Layout.preferredHeight: 10
+                        }
+
+                        Item {
+                            id: recentlyPlayedItem
+                            Layout.fillWidth: true
+                            visible: {
+                                var result = false;
+
+                                if (current_game)
+                                {
+                                    result = true;
+                                }
+
+                                return result;
+                            }
+
+                            Text {
+                                id: playedRecentText
+                                anchors.top: recentlyPlayedItem.top
+                                text: "Last Played:"
+
+                                font.pointSize: 12 * mainWindow.fontSizeMulti
+                                style: Text.Raised
+                                styleColor: mainWindow.appTheme.styleColor
+                                color: mainWindow.appTheme.textColor
+                            }
+
+                            RowLayout {
+                                anchors.top: playedRecentText.bottom
+                                anchors.topMargin: 6
+                                spacing: 10
+
+                                Image {
+                                    fillMode: Image.PreserveAspectFit
+                                    source: {
+                                        var result = DCartcollection.backgrounds["UNKNOWN"];
+                                        if (current_game && current_game in DCartcollection.covers)
+                                        {
+                                            result = DCartcollection.covers[current_game];
+                                        }
+
+                                        return result;
+                                    }
+
+                                    Layout.preferredHeight: 50
+                                    Layout.preferredWidth: 50
+                                }
+                            }
+                        }
                     }
                 }
             }

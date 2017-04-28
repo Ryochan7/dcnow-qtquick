@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.0
+import QtQuick.Window 2.0
 import Qt.labs.settings 1.0
 
 ApplicationWindow {
@@ -10,6 +11,21 @@ ApplicationWindow {
     width: 640
     height: 480
     title: qsTr("Dreamcast Now")
+    property real fontSizeMulti: {
+        var temp = Screen.devicePixelRatio;
+        if (Screen.devicePixelRatio > 1.0)
+        {
+            temp = temp * 0.6;
+        }
+
+        return temp;
+    }
+
+    readonly property QtObject appTheme: QtObject {
+        readonly property string backgroundColor: "#000000";
+        readonly property string textColor: "#FFFFFF";
+        readonly property string styleColor: "#000000";
+    }
 
     Settings {
         id: settings
@@ -82,6 +98,7 @@ ApplicationWindow {
         ToolButton {
             id: menuButton
             text: "Dreamcast Now"
+            font.pointSize: 12 * mainWindow.fontSizeMulti
             enabled: false
             onClicked: {
                 drawer.open();
@@ -128,6 +145,7 @@ ApplicationWindow {
                 //horizontalAlignment: Text.AlignHCenter
                 //verticalAlignment: Text.AlignVCenter
                 highlighted: ListView.isCurrentItem
+                font.pointSize: 10 * mainWindow.fontSizeMulti
 
                 MouseArea {
                     anchors.fill: parent

@@ -15,6 +15,7 @@ class UserInfoModel : public QAbstractListModel
 
 public:
     Q_PROPERTY(int numberOnline READ getNumberOnline NOTIFY numberOnlineChanged)
+    Q_PROPERTY(int numberPlayers READ getNumberPlayers NOTIFY numberPlayersChanged)
 
     enum UserInfoRoles {
         NameRole = Qt::UserRole + 1,
@@ -31,6 +32,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const;
 
     int getNumberOnline();
+    int getNumberPlayers();
 
     Q_INVOKABLE void buildModel(QString jsonData);
     Q_INVOKABLE void clear();
@@ -38,14 +40,17 @@ public:
 
 protected:
     void setNumberOnline(int numOnline);
+    void setNumberPlayers(int numPlayers);
     void calculateNumberOnline();
 
     QHash<QString, UserInfo*> m_data;
     QList<UserInfo*> m_indexes;
     int m_numberOnline;
+    int m_numberPlayers;
 
 signals:
     void numberOnlineChanged(int numOnline);
+    void numberPlayersChanged(int numPlayers);
 
 };
 

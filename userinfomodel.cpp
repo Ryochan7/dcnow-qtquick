@@ -9,7 +9,8 @@
 UserInfoModel::UserInfoModel(QObject *parent) :
     QAbstractListModel(parent)
 {
-
+    m_numberOnline = 0;
+    m_numberPlayers = 0;
 }
 
 int UserInfoModel::rowCount(const QModelIndex &parent) const
@@ -79,7 +80,8 @@ void UserInfoModel::buildModel(QString jsonData)
     QJsonDocument jsonDoc = QJsonDocument::fromJson(tempbytes);
     QJsonObject jsonObj = jsonDoc.object();
     QJsonArray jsonArray = jsonObj.value("users").toArray();
-    for (int i = 0; i < jsonArray.size(); i++)
+    int arsize = jsonArray.size();
+    for (int i = 0; i < arsize; i++)
     {
         QJsonObject userObject = jsonArray.at(i).toObject();
         UserInfo *temp = new UserInfo(this);
@@ -91,6 +93,7 @@ void UserInfoModel::buildModel(QString jsonData)
         m_indexes.append(temp);
     }
 
+    setNumberPlayers(arsize);
     calculateNumberOnline();
 
     endResetModel();
@@ -116,6 +119,7 @@ void UserInfoModel::clear()
 
     m_indexes.clear();
     setNumberOnline(0);
+    setNumberPlayers(0);
     endResetModel();
 }
 
@@ -124,12 +128,26 @@ int UserInfoModel::getNumberOnline()
     return m_numberOnline;
 }
 
+int UserInfoModel::getNumberPlayers()
+{
+    return m_numberPlayers;
+}
+
 void UserInfoModel::setNumberOnline(int numOnline)
 {
     if (numOnline != m_numberOnline)
     {
         m_numberOnline = numOnline;
         emit numberOnlineChanged(numOnline);
+    }
+}
+
+void UserInfoModel::setNumberPlayers(int numPlayers)
+{
+    if (numPlayers != m_numberPlayers)
+    {
+        m_numberPlayers = numPlayers;
+        emit numberPlayersChanged(numPlayers);
     }
 }
 

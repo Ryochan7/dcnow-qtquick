@@ -7,6 +7,7 @@ UserInfoFilterModel::UserInfoFilterModel(UserInfoModel *sourceModel, QObject *pa
 {
     setSourceModel(sourceModel);
     connect(sourceModel, SIGNAL(numberOnlineChanged(int)), this, SLOT(propogateNumberOnline(int)));
+    connect(sourceModel, SIGNAL(numberPlayersChanged(int)), this, SLOT(propogateNumberPlayers(int)));
 }
 
 int UserInfoFilterModel::getNumberOnline()
@@ -20,9 +21,25 @@ int UserInfoFilterModel::getNumberOnline()
     return result;
 }
 
+int UserInfoFilterModel::getNumberPlayers()
+{
+    int result = 0;
+    if (sourceModel())
+    {
+        result = static_cast<UserInfoModel*>(sourceModel())->getNumberPlayers();
+    }
+
+    return result;
+}
+
 void UserInfoFilterModel::propogateNumberOnline(int numOnline)
 {
     emit numberOnlineChanged(numOnline);
+}
+
+void UserInfoFilterModel::propogateNumberPlayers(int numPlayers)
+{
+    emit numberPlayersChanged(numPlayers);
 }
 
 bool UserInfoFilterModel::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const
