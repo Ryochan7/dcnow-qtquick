@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Window 2.0
 
 Item {
     height: 60
@@ -30,11 +31,11 @@ Item {
 
     states: [
         State {
-            name: "base"; when: currentList.contentY >= -120
+            name: "base"; when: currentList.contentY >= -(Screen.desktopAvailableHeight / 4)
             PropertyChanges { target: arrow; rotation: 180 }
         },
         State {
-            name: "pulled"; when: currentList.contentY < -120
+            name: "pulled"; when: currentList.contentY < -(Screen.desktopAvailableHeight / 4)
             PropertyChanges { target: label; text: "Release to refresh..." }
             PropertyChanges { target: arrow; rotation: 0 }
         }

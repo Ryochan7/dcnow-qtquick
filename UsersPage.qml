@@ -204,7 +204,8 @@ Rectangle {
         }
 
         onDragEnded: {
-            if (contentY < -120)
+            var scrollDistance = Screen.desktopAvailableHeight / 4;
+            if (contentY < -scrollDistance)
             {
                 util.queueRefresh();
             }
