@@ -1,4 +1,4 @@
-#include <QDebug>
+//#include <QDebug>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     Util utilObj;
-    QSettings settings2;
-    qDebug() << settings2.value("inGames") << " " << settings2.value("notifyGameList").toList();
+    //QSettings settings2;
+    //qDebug() << settings2.value("inGames") << " " << settings2.value("notifyGameList").toList();
     //QSettings settings(QString(QDir::homePath()).append("/").append("dctest.ini"), QSettings::IniFormat);
 
     engine.rootContext()->setContextProperty("util", &utilObj);
