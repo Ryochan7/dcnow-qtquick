@@ -23,6 +23,7 @@ static QStringList buildGameNameList() {
          << "Ferarri F355 Challenge"
          << "Maximum Pool"
          << "Metropolis Speed Racer"
+         << "Monaco/POD Online"
          << "Phantasy Star Online"
          << "Planet Ring"
          << "Quake 3 Arena"

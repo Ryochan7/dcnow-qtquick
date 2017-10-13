@@ -76,12 +76,12 @@ ApplicationWindow {
         }
 
         Component.onCompleted: {
-            if (notifyGameList === null)
+            if (notifyGameList === undefined)
             {
                 notifyGameList = [];
             }
 
-            if (notifyUserList === null)
+            if (notifyUserList === undefined)
             {
                 notifyUserList = [];
             }

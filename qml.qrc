@@ -28,5 +28,18 @@
         <file>dcnow_covers/Q3.jpg</file>
         <file>dcnow_covers/STARLANCER.jpg</file>
         <file>dcnow_covers/WWP.jpg</file>
+        <file>dcnow_covers/MONACO.jpg</file>
+        <file>dcnow_covers/MSR.jpg</file>
+        <file>dcnow_covers/SA1.jpg</file>
+        <file>dcnow_covers/SA2.jpg</file>
+        <file>dcnow_covers/TETRIS.jpg</file>
+        <file>dcnow_covers/TOYRACER.jpg</file>
+        <file>dcnow_bg/CHUCHU.jpg</file>
+        <file>dcnow_bg/MONACO.jpg</file>
+        <file>dcnow_bg/MSR.jpg</file>
+        <file>dcnow_bg/Q3.jpg</file>
+        <file>dcnow_bg/SA1.jpg</file>
+        <file>dcnow_bg/SA2.jpg</file>
+        <file>dcnow_bg/TETRIS.jpg</file>
     </qresource>
 </RCC>
