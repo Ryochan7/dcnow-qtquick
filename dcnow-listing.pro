@@ -21,8 +21,14 @@ RESOURCES += qml.qrc
 QML_IMPORT_PATH =
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+#qnx: target.path = /tmp/$${TARGET}/bin
+#else: unix:!android: target.path = /opt/$${TARGET}/bin
+isEmpty(PREFIX)
+{
+    PREFIX = /usr/local
+}
+
+unix:!android: target.path = $$PREFIX/bin
 !isEmpty(target.path): INSTALLS += target
 
 

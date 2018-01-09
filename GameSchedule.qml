@@ -1,15 +1,28 @@
 import QtQuick 2.7
-import QtQuick.XmlListModel 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.1
 
 Item {
     id: schedulePage
 
+    function populateModel()
+    {
+        var data = util.getJsonScheduleData();
+        var obj = JSON.parse(data);
+        for (var i in obj["events"])
+        {
+            var event = obj["events"][i];
+            scheduleModel.append({"name": event.name, "eventDateTime": event.dtstart})
+        }
+    }
+
     BusyIndicator {
         id: busyLoading
         anchors.fill: parent
-        running: xmlModel.status === XmlListModel.Loading
+    }
+
+    ListModel {
+        id: scheduleModel
     }
 
     ListView {
@@ -23,7 +36,9 @@ Item {
         }
 
         boundsBehavior: Flickable.DragOverBounds
-        model: XmlListModel {
+        model: scheduleModel
+
+        /*model: XmlListModel {
             id: xmlModel
             source: "http://23.239.26.40/extramedia/hamfest.txt"
             //source: Qt.resolvedUrl("file:/home/ryochan7/hamfest.txt");
@@ -39,6 +54,7 @@ Item {
                 query: "xs:dateTime(dtstart)";
             }
         }
+        */
 
         delegate: Item {
             anchors.left: parent.left
@@ -66,8 +82,25 @@ Item {
                 width: parent.width
                 height: 1
                 color: "#d3d3d3"
-                visible: index < xmlModel.count-1
+                //visible: index < xmlModel.count-1
+                visible: index < scheduleModel.count - 1
             }
         }
+    }
+
+    Connections
+    {
+        target: util
+        onScheduleDataReady: {
+            scheduleView.model = null;
+            populateModel();
+            scheduleView.model = scheduleModel;
+            busyLoading.running = false;
+        }
+    }
+
+    Component.onCompleted: {
+        busyLoading.running = true;
+        util.queueScheduleRefresh();
     }
 }

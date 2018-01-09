@@ -15,7 +15,7 @@ Util::Util(QObject *parent) : QObject(parent)
     m_gamesModel = 0;
 
     manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+    //connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
     connect(this, SIGNAL(dataReady()), this, SLOT(refreshUsersModel()));
     connect(this, SIGNAL(dataReady()), this, SLOT(refreshGamesModel()));
 
@@ -54,8 +54,14 @@ QString Util::getJsonData()
     return jsonData;
 }
 
-void Util::replyFinished(QNetworkReply *reply)
+QString Util::getJsonScheduleData()
 {
+    return jsonScheduleData;
+}
+
+void Util::usersReplyFinished()
+{
+    QNetworkReply *reply = (QNetworkReply*)QObject::sender();
     if (reply->error() == QNetworkReply::NoError)
     {
         jsonData = QString(reply->readAll());
@@ -70,11 +76,36 @@ void Util::replyFinished(QNetworkReply *reply)
     reply->deleteLater();
 }
 
+void Util::scheduleReplyFinished()
+{
+    QNetworkReply *reply = (QNetworkReply*)QObject::sender();
+    if (reply->error() == QNetworkReply::NoError)
+    {
+        jsonScheduleData = QString(reply->readAll());
+
+        emit scheduleDataReady();
+    }
+    else
+    {
+        emit error(reply->error());
+    }
+
+    reply->deleteLater();
+}
+
 void Util::queueRefresh()
 {
     QNetworkRequest request(QUrl("http://23.239.26.40/extramedia/dcnow_users.json"));
-    manager->get(request);
+    QNetworkReply *reply = manager->get(request);
+    connect(reply, SIGNAL(finished()), this, SLOT(usersReplyFinished()));
     emit updateQueued();
+}
+
+void Util::queueScheduleRefresh()
+{
+    QNetworkRequest request(QUrl("http://23.239.26.40/extramedia/hamfest.json"));
+    QNetworkReply *reply = manager->get(request);
+    connect(reply, SIGNAL(finished()), this, SLOT(scheduleReplyFinished()));
 }
 
 void Util::addFollowedGame(QString gameName)

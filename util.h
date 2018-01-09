@@ -27,6 +27,7 @@ public:
     //Q_PROPERTY(QStringList* followedGames READ getFollowedGames)
 
     Q_INVOKABLE QString getJsonData();
+    Q_INVOKABLE QString getJsonScheduleData();
     Q_INVOKABLE void addFollowedGame(QString gameName);
     Q_INVOKABLE void removeFollowGame(QString gameName);
     Q_INVOKABLE void clearFollowGames();
@@ -44,6 +45,7 @@ public:
 
 protected:
     QString jsonData;
+    QString jsonScheduleData;
     QNetworkAccessManager *manager;
     QStringList m_follwedGames;
 
@@ -54,6 +56,7 @@ protected:
 
 signals:
     void dataReady();
+    void scheduleDataReady();
     void error(QNetworkReply::NetworkError replyError);
     //void usersModelChanged(UserInfoModel *model);
     void usersModelChanged(UserInfoFilterModel *model);
@@ -65,11 +68,13 @@ public slots:
     void queueRefresh();
     void refreshUsersModel();
     void refreshGamesModel();
+    void queueScheduleRefresh();
 
 private slots:
-    void replyFinished(QNetworkReply *reply);
+    void usersReplyFinished();
     void deleteUserModels();
     void deleteGamesModel();
+    void scheduleReplyFinished();
 };
 
 #endif // UTIL_H
