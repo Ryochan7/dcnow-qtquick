@@ -130,7 +130,7 @@ void GameInfoModel::buildModel(QString jsonData)
         QJsonObject userObject = jsonArray.at(i).toObject();
 
         QString username = userObject.value("username").toString();
-        QString currentGame = userObject.value("current_game").toString();
+        QString currentGame = userObject.value("current_game_display").toString();
         bool online = userObject.value("online").toBool();
 
         if (statsHash.contains(currentGame) && online)

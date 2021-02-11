@@ -86,7 +86,7 @@ void UserInfoModel::buildModel(QString jsonData)
         QJsonObject userObject = jsonArray.at(i).toObject();
         UserInfo *temp = new UserInfo(this);
         temp->setName(userObject.value("username").toString());
-        temp->setCurrentGame(userObject.value("current_game").toString());
+        temp->setCurrentGame(userObject.value("current_game_display").toString());
         temp->setCurrentlyOnline(userObject.value("online").toBool());
 
         m_data.insert(temp->getName(), temp);
