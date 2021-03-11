@@ -41,5 +41,6 @@
         <file>dcnow_bg/SA1.jpg</file>
         <file>dcnow_bg/SA2.jpg</file>
         <file>dcnow_bg/TETRIS.jpg</file>
+        <file>dcnow_covers/OOGABOOGA.jpg</file>
     </qresource>
 </RCC>

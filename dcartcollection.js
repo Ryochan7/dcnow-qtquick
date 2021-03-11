@@ -27,6 +27,7 @@ var covers = {
     "Maximum Pool": covers_folder + "MAXPOOL.jpg",
     "Metropolis Street Racer": covers_folder + "MSR.jpg",
     "Monaco/POD Online": covers_folder + "MONACO.jpg",
+    "Ooga Booga": covers_folder + "OOGABOOGA.jpg",
     "Planet Ring": covers_folder + "PLANETRING.jpg",
     "Phantasy Star Online": covers_folder + "PSO.jpg",
     "Quake 3 Arena": covers_folder + "Q3.jpg",
