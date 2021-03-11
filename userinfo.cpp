@@ -46,3 +46,33 @@ void UserInfo::setCurrentGame(QString game)
         emit currentGameChanged(game);
     }
 }
+
+QString UserInfo::getGamerLevel()
+{
+    return m_gamerLevel;
+}
+
+void UserInfo::setGamerLevel(QString level)
+{
+    if (level != m_gamerLevel)
+    {
+        m_gamerLevel = level;
+        emit gamerLevelChanged(level);
+    }
+}
+
+QVariantList UserInfo::getRecentGames()
+{
+    QVariantList returnList;
+    for (int i = 0; i < m_recentGameInfo.size(); i++)
+    {
+        returnList.append(QVariant::fromValue(m_recentGameInfo.at(i)));
+    }
+
+    return returnList;
+}
+
+void UserInfo::setRecentGames(QList<BasicGameInfoMeta*> &gameList)
+{
+    m_recentGameInfo = gameList;
+}

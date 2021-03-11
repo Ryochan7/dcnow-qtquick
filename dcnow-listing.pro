@@ -7,6 +7,7 @@ android {
 CONFIG += c++11
 
 SOURCES += main.cpp \
+    basicgameinfometa.cpp \
     util.cpp \
     userinfo.cpp \
     gameinfo.cpp \
@@ -33,6 +34,7 @@ unix:!android: target.path = $$PREFIX/bin
 
 
 HEADERS += \
+    basicgameinfometa.h \
     util.h \
     userinfo.h \
     gameinfo.h \

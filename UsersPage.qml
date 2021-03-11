@@ -92,10 +92,10 @@ Rectangle {
 
                     Layout.fillWidth: true
                     Layout.preferredHeight: {
-                        var result = 240;
+                        var result = 280;
                         if (Screen.primaryOrientation !== Qt.PortraitOrientation)
                         {
-                            result = 180;
+                            result = 220;
                         }
 
                         return result;
@@ -146,6 +146,17 @@ Rectangle {
                             color: mainWindow.appTheme.textColor
                         }
 
+
+                        Text
+                        {
+                            id: levelText
+                            text: level
+                            font.pointSize: 12 * mainWindow.fontSizeMulti
+                            style: Text.Raised
+                            styleColor: mainWindow.appTheme.styleColor
+                            color: mainWindow.appTheme.textColor
+                        }
+
                         Item {
                             Layout.preferredWidth: 1
                             Layout.preferredHeight: 10
@@ -156,8 +167,7 @@ Rectangle {
                             Layout.fillWidth: true
                             visible: {
                                 var result = false;
-
-                                if (current_game)
+                                if (recent_games.length > 0)
                                 {
                                     result = true;
                                 }
@@ -168,7 +178,7 @@ Rectangle {
                             Text {
                                 id: playedRecentText
                                 anchors.top: recentlyPlayedItem.top
-                                text: "Last Played:"
+                                text: qsTr("Played recently:")
 
                                 font.pointSize: 12 * mainWindow.fontSizeMulti
                                 style: Text.Raised
@@ -181,20 +191,25 @@ Rectangle {
                                 anchors.topMargin: 6
                                 spacing: 10
 
-                                Image {
-                                    fillMode: Image.PreserveAspectFit
-                                    source: {
-                                        var result = DCartcollection.backgrounds["UNKNOWN"];
-                                        if (current_game && current_game in DCartcollection.covers)
-                                        {
-                                            result = DCartcollection.covers[current_game];
+                                Repeater
+                                {
+                                    model: recent_games
+                                    delegate: Image {
+                                        Layout.preferredHeight: 50
+                                        Layout.preferredWidth: 50
+
+                                        fillMode: Image.PreserveAspectFit
+                                        source: {
+                                            //console.log(modelData.desc);
+                                            var result = DCartcollection.backgrounds["UNKNOWN"];
+                                            if (modelData.desc && modelData.desc in DCartcollection.covers)
+                                            {
+                                                result = DCartcollection.covers[modelData.desc];
+                                            }
+
+                                            return result;
                                         }
-
-                                        return result;
                                     }
-
-                                    Layout.preferredHeight: 50
-                                    Layout.preferredWidth: 50
                                 }
                             }
                         }

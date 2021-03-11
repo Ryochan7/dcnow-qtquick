@@ -21,6 +21,8 @@ public:
         NameRole = Qt::UserRole + 1,
         OnlineRole,
         CurrentGameRole,
+        GamerLevelRole,
+        RecentGames,
     };
 
     Q_ENUM(UserInfoRoles)

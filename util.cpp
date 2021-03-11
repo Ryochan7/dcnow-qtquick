@@ -10,9 +10,10 @@
 
 Util::Util(QObject *parent) : QObject(parent)
 {
-    m_usersModel = 0;
-    m_sortUsersModel = 0;
-    m_gamesModel = 0;
+    m_usersModel = nullptr;
+    m_sortUsersModel = nullptr;
+    m_gamesModel = nullptr;
+    m_sortGamesModel = nullptr;
 
     manager = new QNetworkAccessManager(this);
     //connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
@@ -27,25 +28,25 @@ Util::~Util()
     if (m_sortUsersModel)
     {
         delete m_sortUsersModel;
-        m_sortUsersModel = 0;
+        m_sortUsersModel = nullptr;
     }
 
     if (m_usersModel)
     {
         delete m_usersModel;
-        m_usersModel = 0;
+        m_usersModel = nullptr;
     }
 
     if (m_sortGamesModel)
     {
         delete m_sortGamesModel;
-        m_sortGamesModel = 0;
+        m_sortGamesModel = nullptr;
     }
 
     if (m_gamesModel)
     {
         delete m_gamesModel;
-        m_gamesModel = 0;
+        m_gamesModel = nullptr;
     }
 }
 
@@ -95,7 +96,7 @@ void Util::scheduleReplyFinished()
 
 void Util::queueRefresh()
 {
-    QNetworkRequest request(QUrl("http://23.239.26.40/extramedia/dcnow_users.json"));
+    QNetworkRequest request(QUrl("http://10.0.0.127:8080//extramedia/dcnow_users.json"));
     QNetworkReply *reply = manager->get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(usersReplyFinished()));
     emit updateQueued();
@@ -103,7 +104,7 @@ void Util::queueRefresh()
 
 void Util::queueScheduleRefresh()
 {
-    QNetworkRequest request(QUrl("http://23.239.26.40/extramedia/hamfest.json"));
+    QNetworkRequest request(QUrl("http://10.0.0.127:8080/extramedia/hamfest.json"));
     QNetworkReply *reply = manager->get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(scheduleReplyFinished()));
 }
@@ -216,14 +217,14 @@ QVariant Util::createGamesModel()
 
 void Util::deleteUserModels()
 {
-    m_usersModel = 0;
-    m_sortUsersModel = 0;
+    m_usersModel = nullptr;
+    m_sortUsersModel = nullptr;
 }
 
 void Util::deleteGamesModel()
 {
-    m_gamesModel = 0;
-    m_sortGamesModel = 0;
+    m_gamesModel = nullptr;
+    m_sortGamesModel = nullptr;
 }
 
 

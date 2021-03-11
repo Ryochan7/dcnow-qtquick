@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
+#include <QVariantList>
 
 #include "userinfomodel.h"
 
@@ -37,6 +38,10 @@ QVariant UserInfoModel::data(const QModelIndex &index, int role) const
         return QVariant::fromValue(val->isCurrentlyOnline());
     case CurrentGameRole:
         return QVariant::fromValue(val->getCurrentGame());
+    case GamerLevelRole:
+        return QVariant::fromValue(val->getGamerLevel());
+    case RecentGames:
+        return QVariant::fromValue(val->getRecentGames());
     default:
         return QVariant();
     }
@@ -51,6 +56,8 @@ QHash<int, QByteArray> UserInfoModel::roleNames() const
         roles[NameRole] = "name";
         roles[OnlineRole] = "online";
         roles[CurrentGameRole] = "current_game";
+        roles[GamerLevelRole] = "level";
+        roles[RecentGames] = "recent_games";
         rolesPopulated = true;
     }
 
@@ -88,6 +95,19 @@ void UserInfoModel::buildModel(QString jsonData)
         temp->setName(userObject.value("username").toString());
         temp->setCurrentGame(userObject.value("current_game_display").toString());
         temp->setCurrentlyOnline(userObject.value("online").toBool());
+        temp->setGamerLevel(userObject.value("level").toString());
+        QList<BasicGameInfoMeta*> recentGameList;
+        QJsonArray recentGamesArray = userObject.value("recent_games").toArray();
+        for (int j = 0; j < recentGamesArray.size(); j++)
+        {
+            QJsonObject recentGame = recentGamesArray.at(j).toObject();
+            BasicGameInfoMeta* meta = new BasicGameInfoMeta(temp);
+            meta->setId(recentGame.value("id").toString());
+            meta->setDescription(recentGame.value("description").toString());
+            recentGameList.append(meta);
+        }
+
+        temp->setRecentGames(recentGameList);
 
         m_data.insert(temp->getName(), temp);
         m_indexes.append(temp);
