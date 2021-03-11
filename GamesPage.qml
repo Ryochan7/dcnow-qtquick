@@ -129,8 +129,6 @@ Item {
 
             ColumnLayout {
                 id: sortOptionsColumn
-                anchors.left: parent.left
-                anchors.right: parent.right
 
                 RadioButton {
                     id: defaultRadio
