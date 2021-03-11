@@ -113,8 +113,6 @@ Item {
         modal: true
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
-        width: contentItem.childrenRect.width
-        height: contentItem.childrenRect.height
 
         function resetChoices()
         {
@@ -171,14 +169,13 @@ Item {
 
             Item {
                 id: spacerItem
-                anchors.top: sortOptionsColumn.bottom
                 height: 20
-                width: parent.width
+                Layout.fillWidth: true
             }
 
             RowLayout {
                 id: sortConfirmRow
-                anchors.top: spacerItem.bottom
+                Layout.fillWidth: true
 
                 Button {
                     text: "Close"
