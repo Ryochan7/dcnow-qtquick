@@ -96,7 +96,7 @@ void Util::scheduleReplyFinished()
 
 void Util::queueRefresh()
 {
-    QNetworkRequest request(QUrl("http://10.0.0.127:8080//extramedia/dcnow_users.json"));
+    QNetworkRequest request(QUrl("http://10.0.0.127:8080/extramedia/dcnow_users.json"));
     QNetworkReply *reply = manager->get(request);
     connect(reply, SIGNAL(finished()), this, SLOT(usersReplyFinished()));
     emit updateQueued();
