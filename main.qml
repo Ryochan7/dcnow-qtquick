@@ -12,12 +12,13 @@ ApplicationWindow {
     height: 480
     title: qsTr("Dreamcast Now")
     property real fontSizeMulti: {
-        var temp = Screen.devicePixelRatio;
+        /*var temp = Screen.devicePixelRatio;
         if (Screen.devicePixelRatio > 1.0)
         {
             temp = temp * 0.6;
         }
-
+        */
+        var temp = 1.0;
         return temp;
     }
 
