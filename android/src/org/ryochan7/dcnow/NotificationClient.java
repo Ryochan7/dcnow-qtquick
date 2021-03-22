@@ -2,30 +2,34 @@ package org.ryochan7.dcnow;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.NotificationChannel;
 import android.content.Context;
-import org.qtproject.qt5.android.bindings.QtActivity;
 
-public class NotificationClient extends QtActivity
+public class NotificationClient
 {
     private static NotificationManager m_notificationManager;
     private static Notification.Builder m_builder;
-    private static NotificationClient m_instance;
 
     public NotificationClient()
     {
-        m_instance = this;
     }
 
-    public static void notify(String summary, String body)
+    public static void notify(Context context, String summary, String body)
     {
-        if (m_notificationManager == null) {
-            m_notificationManager = (NotificationManager)m_instance.getSystemService(Context.NOTIFICATION_SERVICE);
-            m_builder = new Notification.Builder(m_instance);
+        try {
+            m_notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel notificationChannel = new NotificationChannel("DCNow", "Dreamcast Now", importance);
+            m_notificationManager.createNotificationChannel(notificationChannel);
+
+            m_builder = new Notification.Builder(context, notificationChannel.getId());
             m_builder.setSmallIcon(R.drawable.icon);
             m_builder.setContentTitle(summary);
-        }
 
-        m_builder.setContentText(body);
-        m_notificationManager.notify(1, m_builder.build());
+            m_builder.setContentText(body);
+            m_notificationManager.notify(0, m_builder.build());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

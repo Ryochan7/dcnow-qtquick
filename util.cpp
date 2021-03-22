@@ -3,7 +3,7 @@
 #include <QUrl>
 
 #ifdef Q_OS_ANDROID
-#include <QtAndroidExtras/QAndroidJniObject>
+#include <QtAndroidExtras>
 #endif
 
 #include "util.h"
@@ -189,7 +189,8 @@ void Util::sendNotify(QString summary, QString body)
     QAndroidJniObject javaNotificationBody = QAndroidJniObject::fromString(body);
     QAndroidJniObject::callStaticMethod<void>("org/ryochan7/dcnow/NotificationClient",
                                               "notify",
-                                              "(Ljava/lang/String;Ljava/lang/String;)V",
+                                              "(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)V",
+                                              QtAndroid::androidContext().object(),
                                               javaNotificationSummary.object<jstring>(),
                                               javaNotificationBody.object<jstring>());
 #endif
