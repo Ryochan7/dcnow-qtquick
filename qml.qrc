@@ -42,5 +42,9 @@
         <file>dcnow_bg/SA2.jpg</file>
         <file>dcnow_bg/TETRIS.jpg</file>
         <file>dcnow_covers/OOGABOOGA.jpg</file>
+        <file>dcnow_bg/MONACOPOD.jpg</file>
+        <file>dcnow_covers/MONACOPOD.jpg</file>
+        <file>dcnow_bg/NBA2K2.jpg</file>
+        <file>dcnow_covers/NBA2K2.jpg</file>
     </qresource>
 </RCC>
