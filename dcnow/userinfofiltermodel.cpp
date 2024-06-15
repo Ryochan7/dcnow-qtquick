@@ -6,8 +6,8 @@ UserInfoFilterModel::UserInfoFilterModel(UserInfoModel *sourceModel, QObject *pa
     QSortFilterProxyModel(parent)
 {
     setSourceModel(sourceModel);
-    connect(sourceModel, SIGNAL(numberOnlineChanged(int)), this, SLOT(propogateNumberOnline(int)));
-    connect(sourceModel, SIGNAL(numberPlayersChanged(int)), this, SLOT(propogateNumberPlayers(int)));
+    connect(sourceModel, &UserInfoModel::numberOnlineChanged, this, &UserInfoFilterModel::propogateNumberOnline);
+    connect(sourceModel, &UserInfoModel::numberPlayersChanged, this, &UserInfoFilterModel::propogateNumberPlayers);
 }
 
 int UserInfoFilterModel::getNumberOnline()

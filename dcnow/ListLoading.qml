@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick
 
 Image {
     id: loadingIcon
@@ -7,7 +7,7 @@ Image {
     y: -height
     height: 48
     anchors.horizontalCenter: parent.horizontalCenter
-    visible: true
+    visible: false
 
     Behavior on y {
         NumberAnimation {
@@ -21,6 +21,7 @@ Image {
             PropertyChanges {
                 target: loadingIcon
                 y: 0
+                visible: true
             }
         }
     ]

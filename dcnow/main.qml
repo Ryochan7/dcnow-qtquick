@@ -1,15 +1,16 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Window 2.0
-import Qt.labs.settings 1.0
+import QtQuick
+import QtQuick.Window
+import QtQuick.Controls
+import QtCore
+
+import dcnow
 
 ApplicationWindow {
     id: mainWindow
 
-    visible: true
     width: 640
     height: 480
+    visible: true
     title: qsTr("Dreamcast Now")
     property real fontSizeMulti: {
         /*var temp = Screen.devicePixelRatio;
@@ -26,6 +27,11 @@ ApplicationWindow {
         readonly property string backgroundColor: "#000000";
         readonly property string textColor: "#FFFFFF";
         readonly property string styleColor: "#000000";
+    }
+
+    Util
+    {
+        id: util
     }
 
     Settings {
@@ -253,7 +259,7 @@ ApplicationWindow {
         id: errorTextComponent
 
         Text {
-            anchors.fill: parent
+            //anchors.fill: parent
 
             id: errorTextText
             text: qsTr("Did not receive data");
@@ -286,17 +292,19 @@ ApplicationWindow {
 
     Connections {
         target: util
-        onDataReady: {
+        function onDataReady() {
             if (!gameNotifyTimer.running)
             {
                 gameNotifyTimer.start();
             }
         }
 
-        onError: {
+        function onError() {
             mainContainer.replace(errorTextComponent, StackView.Immediate);
             linksListView.currentIndex = -1;
             gameNotifyTimer.stop();
         }
     }
+
+
 }

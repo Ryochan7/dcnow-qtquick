@@ -1,6 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     id: gamesPage
@@ -26,7 +26,7 @@ Item {
         model: gamesModel
 
         delegate: Item {
-            width: parent.width
+            width: gamesListView.width
             height: childrenRect.height + 8
 
             RowLayout {
@@ -209,11 +209,11 @@ Item {
 
     Connections {
         target: util
-        onDataReady: {
+        function onDataReady() {
             loadingIcon.state = "";
         }
 
-        onUpdateQueued: {
+        function onUpdateQueued() {
             loadingIcon.state = "shown";
         }
     }

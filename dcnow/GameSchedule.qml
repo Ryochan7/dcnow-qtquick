@@ -1,6 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     id: schedulePage
@@ -57,8 +57,7 @@ Item {
         */
 
         delegate: Item {
-            anchors.left: parent.left
-            anchors.right: parent.right
+            width: scheduleView.width
             height: childrenRect.height + 10
 
             ColumnLayout {
@@ -91,7 +90,7 @@ Item {
     Connections
     {
         target: util
-        onScheduleDataReady: {
+        function onScheduleDataReady() {
             scheduleView.model = null;
             populateModel();
             scheduleView.model = scheduleModel;

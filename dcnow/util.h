@@ -2,29 +2,29 @@
 #define UTIL_H
 
 #include <QObject>
-#include <QString>
 #include <QStringList>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QSortFilterProxyModel>
+#include <QQmlEngine>
 
-#include "userinfo.h"
-#include "gameinfo.h"
 #include "userinfofiltermodel.h"
+#include "userinfomodel.h"
+#include "gameinfomodel.h"
 #include "gameinfofiltermodel.h"
 
 class Util : public QObject
 {
     Q_OBJECT
+    QML_ELEMENT
 public:
-    explicit Util(QObject *parent = 0);
-    ~Util();
-
     //Q_PROPERTY(UserInfoModel* usersModel READ getUsersModel NOTIFY usersModelChanged)
     Q_PROPERTY(UserInfoFilterModel *usersModel READ getUsersModel NOTIFY usersModelChanged)
     Q_PROPERTY(GameInfoModel *gamesModel READ getGamesModel NOTIFY gamesModelChanged)
     Q_PROPERTY(GameInfoFilterModel *gameFilterModel READ getGamesFilterModel NOTIFY gamesFilterModelChanged)
     //Q_PROPERTY(QStringList* followedGames READ getFollowedGames)
+
+    explicit Util(QObject *parent = nullptr);
+    ~Util();
 
     Q_INVOKABLE QString getJsonData();
     Q_INVOKABLE QString getJsonScheduleData();

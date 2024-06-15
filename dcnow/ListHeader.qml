@@ -1,11 +1,10 @@
-import QtQuick 2.0
-import QtQuick.Window 2.0
+import QtQuick
 
 Item {
     height: 60
     width: parent.width
 
-    property bool refresh: state == "pulled" ? true : false
+    property bool refresh: state === "pulled" ? true : false
     property var currentList
 
     Row {

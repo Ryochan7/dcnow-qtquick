@@ -1,7 +1,6 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Layouts 1.0
-import QtQuick.Window 2.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 import "dcartcollection.js" as DCartcollection
 
@@ -67,7 +66,7 @@ Rectangle {
         model: userModel
 
         delegate: Rectangle {
-            width: parent.width
+            width: usersListView.width
             height: childrenRect.height + 8
             color: mainWindow.appTheme.backgroundColor
 
@@ -229,11 +228,11 @@ Rectangle {
 
     Connections {
         target: util
-        onDataReady: {
+        function onDataReady() {
             loadingIcon.state = "";
         }
 
-        onUpdateQueued: {
+        function onUpdateQueued() {
             loadingIcon.state = "shown";
         }
     }

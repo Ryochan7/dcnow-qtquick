@@ -2,13 +2,10 @@
 #include <QProcess>
 #include <QUrl>
 
-#ifdef Q_OS_ANDROID
-#include <QtAndroidExtras>
-#endif
-
 #include "util.h"
 
-Util::Util(QObject *parent) : QObject(parent)
+Util::Util(QObject *parent)
+    : QObject{parent}
 {
     m_usersModel = nullptr;
     m_sortUsersModel = nullptr;
@@ -16,9 +13,9 @@ Util::Util(QObject *parent) : QObject(parent)
     m_sortGamesModel = nullptr;
 
     manager = new QNetworkAccessManager(this);
-    //connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
-    connect(this, SIGNAL(dataReady()), this, SLOT(refreshUsersModel()));
-    connect(this, SIGNAL(dataReady()), this, SLOT(refreshGamesModel()));
+
+    connect(this, &Util::dataReady, this, &Util::refreshUsersModel);
+    connect(this, &Util::dataReady, this, &Util::refreshGamesModel);
 
     queueRefresh();
 }
@@ -98,7 +95,7 @@ void Util::queueRefresh()
 {
     QNetworkRequest request(QUrl("http://10.0.0.127:8080/extramedia/dcnow_users.json"));
     QNetworkReply *reply = manager->get(request);
-    connect(reply, SIGNAL(finished()), this, SLOT(usersReplyFinished()));
+    connect(reply, &QNetworkReply::finished, this, &Util::usersReplyFinished);
     emit updateQueued();
 }
 
@@ -106,7 +103,7 @@ void Util::queueScheduleRefresh()
 {
     QNetworkRequest request(QUrl("http://10.0.0.127:8080/extramedia/hamfest.json"));
     QNetworkReply *reply = manager->get(request);
-    connect(reply, SIGNAL(finished()), this, SLOT(scheduleReplyFinished()));
+    connect(reply, &QNetworkReply::finished, this, &Util::scheduleReplyFinished);
 }
 
 void Util::addFollowedGame(QString gameName)
@@ -181,18 +178,7 @@ void Util::sendNotify(QString summary, QString body)
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
     QProcess::startDetached("notify-send",
                             QStringList() << "-a" << "Dreamcast Now" << "-i"
-                            << "/home/ryochan7/Downloads/feelsguy.jpeg" << summary << body);
-
-#elif defined(Q_OS_ANDROID)
-
-    QAndroidJniObject javaNotificationSummary = QAndroidJniObject::fromString(summary);
-    QAndroidJniObject javaNotificationBody = QAndroidJniObject::fromString(body);
-    QAndroidJniObject::callStaticMethod<void>("org/ryochan7/dcnow/NotificationClient",
-                                              "notify",
-                                              "(Landroid/content/Context;Ljava/lang/String;Ljava/lang/String;)V",
-                                              QtAndroid::androidContext().object(),
-                                              javaNotificationSummary.object<jstring>(),
-                                              javaNotificationBody.object<jstring>());
+                                          << "/home/ryochan7/Downloads/feelsguy.jpeg" << summary << body);
 #endif
 }
 
@@ -200,8 +186,8 @@ QVariant Util::createUsersModel()
 {
     m_usersModel = new UserInfoModel();
     m_sortUsersModel = new UserInfoFilterModel(m_usersModel);
-    connect(m_sortUsersModel, SIGNAL(destroyed(QObject*)), m_usersModel, SLOT(deleteLater()));
-    connect(m_sortUsersModel, SIGNAL(destroyed(QObject*)), this, SLOT(deleteUserModels()));
+    connect(m_sortUsersModel, &UserInfoFilterModel::destroyed, m_usersModel, &UserInfoModel::deleteLater);
+    connect(m_sortUsersModel, &UserInfoFilterModel::destroyed, this, &Util::deleteUserModels);
     refreshUsersModel();
     return QVariant::fromValue(m_sortUsersModel);
 }
@@ -210,8 +196,8 @@ QVariant Util::createGamesModel()
 {
     m_gamesModel = new GameInfoModel();
     m_sortGamesModel = new GameInfoFilterModel(m_gamesModel);
-    connect(m_sortGamesModel, SIGNAL(destroyed(QObject*)), m_gamesModel, SLOT(deleteLater()));
-    connect(m_sortGamesModel, SIGNAL(destroyed(QObject*)), this, SLOT(deleteGamesModel()));
+    connect(m_sortGamesModel, &GameInfoFilterModel::destroyed, m_gamesModel, &GameInfoModel::deleteLater);
+    connect(m_sortGamesModel, &GameInfoFilterModel::destroyed, this, &Util::deleteGamesModel);
     refreshGamesModel();
     return QVariant::fromValue(m_sortGamesModel);
 }
@@ -233,3 +219,5 @@ QUrl Util::testPath()
 {
     return QUrl::fromLocalFile("/home/ryochan7/hamfest.txt");
 }
+
+
